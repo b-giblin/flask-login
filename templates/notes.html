@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Notes</title>
+</head>
+<body>
+    <h2>Welcome, {{ current_user.username }}!</h2>
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+
+    <h3>Add a new note:</h3>
+    <form method="post">
+        {{ form.hidden_tag() }}
+        <label for="content">Note:</label><br>
+        {{ form.content() }}<br>
+        {{ form.submit() }}
+    </form>
+
+    <h3>Your Notes:</h3>
+    <ul>
+        {% for note in notes %}
+        <li>
+            {{ note.content }} 
+            <a href="{{ url_for('delete_note', note_id=note.id) }}">[Delete]</a>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <a href="{{ url_for('logout') }}">Logout</a>
+</body>
+</html>
